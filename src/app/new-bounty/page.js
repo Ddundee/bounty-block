@@ -6,6 +6,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation'
 import NavBar from "@/components/ui/navbar";
 
+import MyToken from "./artifacts/contracts/MyToken.sol/MyToken.json";
+
+const myTokenAddress = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
+
 export default function Component() {
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
@@ -32,6 +36,10 @@ export default function Component() {
     console.log(``)
     
       try {
+        //mint tokens
+        const amountToMint = ethers.parseEther(reward);
+        await contractInstance.mint(owner.address, amountToMint);
+
         const response = await fetch(`/api/newBounty/${title}/${company}/${description}/${reward}/${deadline}/${email}/${link}`);
         const data = await response.json();
         // console.log(await data.)
