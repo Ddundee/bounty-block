@@ -1,19 +1,17 @@
-import { Input } from "@/components/ui/input"
+"use client";
 import { Button } from "@/components/ui/button"
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
+import { useRouter } from 'next/navigation'
+import NavBar from "@/components/ui/navbar";
+import { useState } from "react";
+
 
 export default function Component() {
+  // const router = useRouter();
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <header className="flex justify-between items-center py-6">
-        <h1 className="text-3xl font-bold">BountyBlock</h1>
-        <div className="flex space-x-4">
-          <Input className="block w-full" placeholder="Search for Bounties" type="text" />
-          <Button variant="ghost">View Bounties</Button>
-          <Button variant="ghost">Login</Button>
-          <Button>Register</Button>
-        </div>
-      </header>
+      <NavBar />
       <main>
         <section className="text-center py-12">
           <h2 className="text-5xl font-bold">Find the perfect bounty</h2>
