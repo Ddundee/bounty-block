@@ -17,7 +17,7 @@ export default function Web3Connection() {
 
               >
                 {/* <Icon as={FaEthereum} /> */}
-                <FaEthereum className="mr-2"/>Connect wallet
+                <FaEthereum className="mr-2"/>Connect Wallet
               </Button>
             ) : (
                 

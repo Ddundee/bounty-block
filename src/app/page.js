@@ -5,6 +5,7 @@ import NavBar from "@/components/ui/navbar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import usdc from '@/../public/usdc.png'
+import Link from "next/link";
 
 
 
@@ -40,7 +41,8 @@ export default function Component() {
         </section>
         <section className="grid md:grid-cols-2 gap-8 mt-8">
           {cards ? cards.map((card) => (
-            <Card className="w-full">
+            <Link href={`/bounties/${card._id}`}>
+            <Card className="w-full hover:shadow-md duration-100">
             <CardHeader>
               <CardTitle className="truncate">{card.title}</CardTitle>
               <CardDescription className="flex items-center">
@@ -61,72 +63,16 @@ export default function Component() {
                 <CalendarIcon className="text-gray-500" />
                 <span>Deadline: {new Date().toLocaleDateString()}</span>
               </div>  
-              <div className="text-gray-500">Posted 3 minutes ago</div>
+              <div className="text-gray-500">Posted {new Date(card.uploadDate).toLocaleDateString()}</div>
             </CardFooter>
-            <div className="flex justify-between items-center p-4">
-              <Button className="w-full" variant="secondary">
+            <div className="flex justify-between items-center p-3">
+              <Button className="w-full" variant="">
                 View Details
               </Button>
-              <Button className="w-full">Apply</Button>
             </div>
           </Card>
-          )) : "Loading"}
-          {/* <Card className="w-full">
-            <CardHeader>
-              <CardTitle>Add support for mobile devices</CardTitle>
-              <CardDescription>1000 tokens</CardDescription>
-              <CardDescription>Company: Acme Inc.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>
-                We are looking for developers to add support for mobile devices to our web app. The task involves making
-                the UI responsive and optimizing the user experience on mobile devices
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between items-center">
-              <div className="flex items-center space-x-2">
-                <CalendarIcon className="text-gray-500" />
-                <span>Deadline: 2 weeks</span>
-              </div>
-              <div className="text-gray-500">Posted 3 minutes ago</div>
-            </CardFooter>
-            <div className="flex justify-between items-center p-4">
-              <Button className="w-full" variant="secondary">
-                View Details
-              </Button>
-            </div>
-            <div className="flex justify-between items-center p-4">
-              <Button className="w-full">Apply</Button>
-            </div>
-          </Card>
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>Add support for mobile devices</CardTitle>
-              <CardDescription>1000 tokens</CardDescription>
-              <CardDescription>Company: Acme Inc.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>
-                We are looking for developers to add support for mobile devices to our web app. The task involves making
-                the UI responsive and optimizing the user experience on mobile devices
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between items-center">
-              <div className="flex items-center space-x-2">
-                <CalendarIcon className="text-gray-500" />
-                <span>Deadline: 2 weeks</span>
-              </div>
-              <div className="text-gray-500">Posted 3 minutes ago</div>
-            </CardFooter>
-            <div className="flex justify-between items-center p-4">
-              <Button className="w-full" variant="secondary">
-                View Details
-              </Button>
-            </div>
-            <div className="flex justify-between items-center p-4">
-              <Button className="w-full">Apply</Button>
-            </div>
-          </Card> */}
+            </Link>
+          )) : "No Bounties"}
         </section>
       </main>
     </div>

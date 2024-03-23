@@ -6,10 +6,18 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Web3Connection from "./web3connection";
+import { useWeb3Context } from "@/util/context/Web3Context";
+import { FaEthereum } from "react-icons/fa";
 
 export default function NavBar() {
     const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const {
+    connectWallet,
+    disconnect,
+    state: { isAuthenticated, address, currentChain, provider },
+  } = useWeb3Context();
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,7 +30,7 @@ export default function NavBar() {
     <header className="flex justify-between items-center py-6">
       <Link href="/"><h1 className="text-3xl font-bold">BountyBlock</h1></Link>
       <div className="flex space-x-4">
-        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={handleSubmit}>
           <Input
             className="block w-full"
             placeholder="Search for Bounties"
@@ -30,7 +38,7 @@ export default function NavBar() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </form>
+        </form> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost">View Bounties &darr;</Button>
@@ -39,14 +47,36 @@ export default function NavBar() {
             <DropdownMenuLabel>Bounty Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View All Bounties</DropdownMenuItem>
+            <DropdownMenuItem>View Your Bounties</DropdownMenuItem>
+            
             <DropdownMenuItem>
-              <Link href="/new-bounty">Create Bounty</Link>
+              <Link href="/bounties/new">Create Bounty</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Web3Connection />
-        <Button variant="outline">Login</Button>
-        <Button onClick={() => {router.push('/work-in-progress')}}>Register</Button>
+        <div>
+            {!isAuthenticated ? (
+              <Button
+                onClick={connectWallet}
+
+              >
+                {/* <Icon as={FaEthereum} /> */}
+                <FaEthereum className="mr-2"/>Connect Wallet
+              </Button>
+            ) : (
+                
+              <div
+                
+              >
+                <Button
+                onClick={disconnect}
+                variant="outline"
+                >
+                    <FaEthereum className="mr-2"/>Disconnect
+                </Button>
+              </div>
+              )}
+        </div>
       </div>
     </header>
   );
