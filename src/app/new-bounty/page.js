@@ -13,35 +13,42 @@ export default function Component() {
   const [reward, setReward] = useState("");
   const [deadline, setDeadline] = useState("");
   const [email, setEmail] = useState("");
-  const [tags, setTags] = useState("");
   const [link, setLink] = useState("");
 
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log({
+    const slug = {
       title,
       company,
       description,
       reward,
       deadline,
       email,
-      tags,
       link,
-    });
-
+    };
+    console.log(``)
+    
+      try {
+        const response = await fetch(`/api/newBounty/${title}/${company}/${description}/${reward}/${deadline}/${email}/${link}`);
+        const data = await response.json();
+        // console.log(await data.)
+        setCards(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    
     router.push("/new-bounty/submitted")
     // Reset form fields after submission
-    setTitle("");
-    setCompany("");
-    setDescription("");
-    setReward("");
-    setDeadline("");
-    setEmail("");
-    setTags("");
-    setLink("");
+    // setTitle("");
+    // setCompany("");
+    // setDescription("");
+    // setReward("");
+    // setDeadline("");
+    // setEmail("");
+    // setLink("");
   };
 
   return (
@@ -106,16 +113,6 @@ export default function Component() {
             value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <label className="block">
-          <span className="text-gray-700">Tags/Skills<span className="font-black">*</span></span>
-          <Input
-            placeholder="Enter comma separated tags/skills"
-            type="text"
-            value={tags}
-            required
-            onChange={(e) => setTags(e.target.value.split(',').map(element => element.trim()))}
           />
         </label>
         <label className="block">

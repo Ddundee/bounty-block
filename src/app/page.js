@@ -1,13 +1,33 @@
 "use client";
 import { Button } from "@/components/ui/button"
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import NavBar from "@/components/ui/navbar";
-import { useState } from "react";
+// import { ObjectId, Timestamp } from "mongodb";
+import { useEffect, useState } from "react";
+// import { useState } from "react";
+
+
+
 
 
 export default function Component() {
   // const router = useRouter();
+  const [cards, setCards] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch('/api/useBounty');
+        const data = await response.json();
+        // console.log(await data.)
+        setCards(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    })();
+  }, []);
+
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,7 +40,36 @@ export default function Component() {
           </p>
         </section>
         <section className="grid md:grid-cols-2 gap-8 mt-8">
-          <Card className="w-full">
+          {cards ? cards.map((card) => (
+            <Card className="w-full">
+            <CardHeader>
+              <CardTitle className="truncate">{card.title}</CardTitle>
+              <CardDescription>{card.tokens} tokens</CardDescription>
+              <CardDescription>Company: {card.company}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="line-clamp-2">
+                {card.description}
+              </p>
+            </CardContent>
+            <CardFooter className="flex justify-between items-center">
+              <div className="flex items-center space-x-2">
+                <CalendarIcon className="text-gray-500" />
+                <span>Deadline: {new Date().toLocaleDateString()}</span>
+              </div>  
+              <div className="text-gray-500">Posted 3 minutes ago</div>
+            </CardFooter>
+            <div className="flex justify-between items-center p-4">
+              <Button className="w-full" variant="secondary">
+                View Details
+              </Button>
+            </div>
+            <div className="flex justify-between items-center p-4">
+              <Button className="w-full">Apply</Button>
+            </div>
+          </Card>
+          )) : "Loading"}
+          {/* <Card className="w-full">
             <CardHeader>
               <CardTitle>Add support for mobile devices</CardTitle>
               <CardDescription>1000 tokens</CardDescription>
@@ -75,7 +124,7 @@ export default function Component() {
             <div className="flex justify-between items-center p-4">
               <Button className="w-full">Apply</Button>
             </div>
-          </Card>
+          </Card> */}
         </section>
       </main>
     </div>
