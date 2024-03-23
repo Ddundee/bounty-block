@@ -1,10 +1,15 @@
 "use client";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation'
 import NavBar from "@/components/ui/navbar";
+import { useWeb3Context } from "@/util/context/Web3Context";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
+import Link from "next/link";
+import { Input } from "@/components/ui/input"
+// import Web3Connection from "./web3connection";
+import { FaEthereum } from "react-icons/fa";
 
 import MyToken from "./artifacts/contracts/MyToken.sol/MyToken.json";
 
@@ -18,8 +23,23 @@ export default function Component() {
   const [deadline, setDeadline] = useState("");
   const [email, setEmail] = useState("");
   const [link, setLink] = useState("");
-
   const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  
+
+
+  const handleSubmit2 = (e) => {
+    e.preventDefault();
+    console.log("Search term:", searchTerm);
+    // Add your search logic here
+    router.push('/bounties/?query=' + searchTerm)
+  };
+  
+  const {
+    connectWallet,
+    disconnect,
+    state: { isAuthenticated, address, currentChain, provider },
+  } = useWeb3Context();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,26 +62,66 @@ export default function Component() {
 
         const response = await fetch(`/api/newBounty/${title}/${company}/${description}/${reward}/${deadline}/${email}/${link}`);
         const data = await response.json();
-        // console.log(await data.)
-        setCards(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-    
-    router.push("/new-bounty/submitted")
-    // Reset form fields after submission
-    // setTitle("");
-    // setCompany("");
-    // setDescription("");
-    // setReward("");
-    // setDeadline("");
-    // setEmail("");
-    // setLink("");
+
+    router.push("/")
   };
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-       <NavBar/>
+       <header className="flex justify-between items-center py-6">
+      <Link href="/"><h1 className="text-3xl font-bold">BountyBlock</h1></Link>
+      <div className="flex space-x-4">
+        <form onSubmit={handleSubmit2}>
+          {/* <Input
+            className="block w-full"
+            placeholder="Search for Bounties"
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          /> */}
+        </form>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost">View Bounties &darr;</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Bounty Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>View All Bounties</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="/bounties/new">Create Bounty</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <div>
+            {!isAuthenticated ? (
+              <Button
+                onClick={connectWallet}
+
+              >
+                {/* <Icon as={FaEthereum} /> */}
+                <FaEthereum className="mr-2"/>Connect Wallet
+              </Button>
+            ) : (
+                
+              <div
+                
+              >
+                <Button
+                onClick={disconnect}
+                variant="outline"
+                >
+                    <FaEthereum className="mr-2"/>Disconnect
+                </Button>
+              </div>
+              )}
+        </div>
+        
+      </div>
+    </header>
        <div className="max-w-2xl mx-auto my-10 p-6 bg-white shadow-md rounded-md">
       <h2 className="text-2xl font-bold mb-6">Submit a New Bounty</h2>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">

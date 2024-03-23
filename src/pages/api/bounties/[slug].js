@@ -13,28 +13,21 @@ const client = new MongoClient(uri, {
 export default async function handler(req, res) {
   if (req.method === 'POST' || req.method === 'GET') {
     const {slug} = req.query;
-    
+
     try {
       await client.connect();
       const database = client.db('db');
-      let blogs = database.collection('collection');
-      await blogs.insertOne({
-        _id: new ObjectId(),
-        title: slug[0],
-        company: slug[1],
-        description: slug[2],
-        tokens: parseInt(slug[3]),
-        deadline: slug[4],
-        email: slug[5],
-        link: slug.length == 6 ? "" : slug[6]
-      });
-      res.json({slugs:slug});
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({message: 'Internal Server Error'});
-    } finally {
+      const blog = await database
+        .collection('collection')
+        .find({
+            _id: new ObjectId(slug)
+        })
+        .sort({views: -1})
+        .toArray();
+
+      res.json({"bounty": blog[0]});
       await client.close();
-    }
+    } catch (error) {}
   } else {
     res.status(405).json({message: 'Method not allowed'});
   }
