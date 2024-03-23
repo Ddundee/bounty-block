@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Web3Connection from "./web3connection";
 
 export default function NavBar() {
     const router = useRouter();
@@ -43,6 +44,7 @@ export default function NavBar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Web3Connection />
         <Button variant="outline">Login</Button>
         <Button onClick={() => {router.push('/work-in-progress')}}>Register</Button>
       </div>

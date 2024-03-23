@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation'
 import NavBar from "@/components/ui/navbar";
+import { useWeb3Context } from "@/util/context/Web3Context";
+import useWeb3Provider from "@/util/hooks/useWeb3Provider";
 
 export default function Component() {
   const [title, setTitle] = useState("");
@@ -16,6 +18,15 @@ export default function Component() {
   const [link, setLink] = useState("");
 
   const router = useRouter();
+
+  
+  let web3 = useWeb3Provider();
+  useEffect(() => {
+    // web3 = useWeb3Provider();
+    // while(true) {
+      setTimeout(() => {console.log("IS AUTH: " + web3.state.isAuthenticated)}, 4000)
+    // }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,21 +45,11 @@ export default function Component() {
       try {
         const response = await fetch(`/api/newBounty/${title}/${company}/${description}/${reward}/${deadline}/${email}/${link}`);
         const data = await response.json();
-        // console.log(await data.)
-        setCards(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-    
+
     router.push("/new-bounty/submitted")
-    // Reset form fields after submission
-    // setTitle("");
-    // setCompany("");
-    // setDescription("");
-    // setReward("");
-    // setDeadline("");
-    // setEmail("");
-    // setLink("");
   };
 
   return (

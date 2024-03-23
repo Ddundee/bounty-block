@@ -18,7 +18,6 @@ export default async function handler(req, res) {
       await client.connect();
       const database = client.db('db');
       let blogs = database.collection('collection');
-      // const query = {_id: new ObjectId(Math.random() * 9999999999999999n)};
       await blogs.insertOne({
         _id: new ObjectId(),
         title: slug[0],
@@ -29,13 +28,6 @@ export default async function handler(req, res) {
         email: slug[5],
         link: slug.length == 6 ? "" : slug[6]
       });
-
-      // blogs = await database
-      //   .collection('port')
-      //   .find()
-      //   // .filter(query)
-      //   .sort({views: -1})
-      //   .toArray();
       res.json({slugs:slug});
     } catch (error) {
       console.error('Error:', error);

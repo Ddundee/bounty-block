@@ -2,9 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
 import NavBar from "@/components/ui/navbar";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import usdc from '@/../public/usdc.png'
 
 
 
@@ -43,12 +41,7 @@ export default function Component() {
             <Card className="w-full">
             <CardHeader>
               <CardTitle className="truncate">{card.title}</CardTitle>
-              <CardDescription className="flex items-center">
-                <p>{card.tokens} USDC</p>
-                <div className="ml-2 w-5 h-5">
-                  <Image src={usdc} alt={usdc} height={20} width={20}/>
-                </div>
-                </CardDescription>
+              <CardDescription>{card.tokens} tokens</CardDescription>
               <CardDescription>Company: {card.company}</CardDescription>
             </CardHeader>
             <CardContent>
