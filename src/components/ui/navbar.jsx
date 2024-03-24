@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import Web3Connection from "./web3connection";
 import { useWeb3Context } from "@/util/context/Web3Context";
 import { FaEthereum } from "react-icons/fa";
+import Image from "next/image";
+import b from '@/../public/b.png'
+
 
 export default function NavBar() {
     const router = useRouter();
@@ -27,7 +30,7 @@ export default function NavBar() {
 
   return (
     <header className="flex justify-between items-center py-6">
-      <Link href="/"><h1 className="text-3xl font-bold">BountyBlock</h1></Link>
+      <Link href="/" className="flex"><Image src={b} alt={b} height={32} width={32}/><h1 className="text-3xl font-bold">BountyBlock</h1></Link>
       <div className="flex space-x-4">
         {/* <form onSubmit={handleSubmit}>
           <Input

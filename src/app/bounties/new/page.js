@@ -10,6 +10,9 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input"
 import { FaEthereum } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
+import b from '@/../public/b.png'
+
 
 export default function Component() {
   const [title, setTitle] = useState("");
@@ -67,7 +70,7 @@ export default function Component() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <Toaster position="bottom-right"/>
       <header className="flex justify-between items-center py-6">
-        <Link href="/"><h1 className="text-3xl font-bold">BountyBlock</h1></Link>
+      <Link href="/" className="flex"><Image src={b} alt={b} height={32} width={32}/><h1 className="text-3xl font-bold">BountyBlock</h1></Link>
         <div className="flex space-x-4">
           <form onSubmit={handleSubmit2}>
             {/* <Input
