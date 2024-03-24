@@ -13,28 +13,35 @@ const client = new MongoClient(uri, {
 export default async function handler(req, res) {
   if (req.method === 'POST' || req.method === 'GET') {
     const {slug} = req.query;
-    
-    try {
-      await client.connect();
-      const database = client.db('db');
-      let blogs = database.collection('collection');
-      await blogs.insertOne({
-        _id: new ObjectId(),
-        title: slug[0],
-        company: slug[1],
-        description: slug[2],
-        tokens: parseInt(slug[3]),
-        deadline: slug[4],
-        email: slug[5],
-        link: slug.length == 6 ? "" : slug[6]
-      });
-      res.json({slugs:slug});
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({message: 'Internal Server Error'});
-    } finally {
-      await client.close();
+    if(slug.length == 9) {
+      try {
+        await client.connect();
+        const database = client.db('db');
+        let blogs = database.collection('collection');
+        await blogs.insertOne({
+          _id: new ObjectId(),
+          title: slug[0],
+          company: slug[1],
+          description: slug[2],
+          tokens: parseInt(slug[3]),
+          retainer: slug[4],
+          payout: slug[5],
+          deadline:slug[6],
+          ownerAddress:slug[8],
+          uploadDate: (new Date()).toLocaleDateString(),
+          email:slug[7],
+          update: []
+        });
+        res.json({slugs:slug});
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({message: 'Internal Server Error'});
+      } finally {
+        await client.close();
+      }
     }
+    else res.json({"STATUS": "FAILED"})
+    
   } else {
     res.status(405).json({message: 'Method not allowed'});
   }

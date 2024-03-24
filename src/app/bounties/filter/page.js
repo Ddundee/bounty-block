@@ -31,12 +31,6 @@ export default function Component() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <NavBar />
       <main>
-        <section className="text-center py-12">
-          <h2 className="text-5xl font-bold">Find the perfect bounty</h2>
-          <p className="text-lg mt-4">
-            Connect with industry leading companies to work on exciting projects and earn tokens.
-          </p>
-        </section>
         <section className="grid md:grid-cols-2 gap-8 mt-8">
           {cards ? cards.map((card) => (
             <Link href={`/bounties/${card._id}`}>

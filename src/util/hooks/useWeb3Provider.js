@@ -11,6 +11,8 @@ const useWeb3Provider = () => {
     isAuthenticated: false,
 };
     const [state, setState] = useState(initialWeb3State);
+    useEffect(() => {
+  },[state])
 
     const connectWallet = useCallback(async () => {
         if(state.isAuthenticated) return;

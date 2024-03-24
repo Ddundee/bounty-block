@@ -22,7 +22,6 @@ export default function NavBar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Search term:", searchTerm);
-    // Add your search logic here
     router.push('/bounties/?query=' + searchTerm)
   };
 
@@ -46,8 +45,7 @@ export default function NavBar() {
           <DropdownMenuContent>
             <DropdownMenuLabel>Bounty Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View All Bounties</DropdownMenuItem>
-            <DropdownMenuItem>View Your Bounties</DropdownMenuItem>
+            <DropdownMenuItem><Link href={'/bounties/filter'}>View All Bounties</Link></DropdownMenuItem>
             
             <DropdownMenuItem>
               <Link href="/bounties/new">Create Bounty</Link>
