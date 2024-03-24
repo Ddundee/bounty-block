@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input"
 import { FaEthereum } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
+
 export default function Component() {
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
